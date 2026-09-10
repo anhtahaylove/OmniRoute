@@ -1,1 +1,1 @@
-Fix a concurrency-slot leak in the DeepSeek PoW solver: a worker that failed to spawn (for example a missing worker script) never released its slot, so `MAX_CONCURRENT_WORKERS` failures disabled the solver until restart.
+- **fix(deepseek):** the PoW solver releases its concurrency slot when a worker fails to spawn (for example a missing worker script), so `MAX_CONCURRENT_WORKERS` failures no longer disable the solver until restart ([#13097](https://github.com/diegosouzapw/OmniRoute/pull/13097))
