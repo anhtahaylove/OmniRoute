@@ -1,1 +1,1 @@
-Fix a timer leak in the badge notification SSE stream: when the request signal was already aborted before the stream started (a client that disconnects while the route is still awaiting auth), the abort listener never fired and both intervals ran for the lifetime of the process.
+- **fix(gamification):** close the badge notification SSE stream when the request signal is already aborted before the stream starts — a client that disconnects while the route is still awaiting auth used to leave both the 2s unlock poll and the 15s heartbeat running for the lifetime of the process.
