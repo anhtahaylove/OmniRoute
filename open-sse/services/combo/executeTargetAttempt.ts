@@ -442,6 +442,18 @@ export async function executeTargetAttempt(opts: {
           latencyMs: Date.now() - deps.startTime,
         });
         state.observeFailure(false, target.executionKey);
+        const retryablePreContentStreamFailure =
+          quality.reason === "streaming upstream error" &&
+          retry < deps.maxRetries &&
+          !deps.signal?.aborted;
+        if (retryablePreContentStreamFailure) {
+          deps.log.info(
+            "COMBO",
+            `Retrying ${modelStr} after pre-content streaming upstream error ` +
+              `(attempt ${retry + 2}/${deps.maxRetries + 1})`
+          );
+          continue;
+        }
         return protectedPriorityTarget
           ? {
               ok: false,
